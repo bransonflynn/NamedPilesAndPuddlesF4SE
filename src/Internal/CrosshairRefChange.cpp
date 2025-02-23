@@ -55,9 +55,13 @@ namespace Internal::Events
 				return RE::BSEventNotifyControl::kContinue;
 			}
 
-			auto currentRefName = _currentRef.get().get()->GetDisplayFullName();
-			bool isAshPile = Internal::IsAshPile(_currentRef);
-			logger::info("name: {}, isAshPile: {}", currentRefName, isAshPile);
+			int8_t isAshPile = IsAshPile(_currentRef.get().get());
+			logger::info("IsAshPile: {}", isAshPile);
+			if (isAshPile == -1) {
+				return RE::BSEventNotifyControl::kContinue;
+			}
+
+			RenameAshPile(_currentRef.get().get(), isAshPile);
 
 			return RE::BSEventNotifyControl::kContinue;
 		}
